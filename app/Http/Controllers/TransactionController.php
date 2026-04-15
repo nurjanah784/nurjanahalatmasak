@@ -28,12 +28,18 @@ class TransactionController extends Controller
         
         $conditionText = $this->getConditionText($transaction->loan->condition ?? 'good');
         
+        // Hitung total harga barang (harga x jumlah)
+        $itemPrice = $transaction->loan && $transaction->loan->item ? $transaction->loan->item->price : 0;
+        $totalPrice = $itemPrice * ($transaction->loan->amount ?? 0);
+        
         return response()->json([
             'id' => $transaction->id,
             'transaction_code' => $transaction->transaction_code,
             'user_name' => $transaction->user ? $transaction->user->name : 'Tidak diketahui',
             'item_name' => $transaction->loan && $transaction->loan->item ? $transaction->loan->item->name : '-',
             'amount' => $transaction->loan ? $transaction->loan->amount : 0,
+            'item_price' => $itemPrice,  // <-- TAMBAHKAN INI
+            'total_price' => $transaction->total_price ?? $totalPrice,  // <-- TAMBAHKAN INI
             'condition_text' => $conditionText,
             'penalty_amount' => $transaction->penalty_amount,
             'payment_method' => $transaction->payment_method,
@@ -97,6 +103,11 @@ class TransactionController extends Controller
     {
         $conditionText = $this->getConditionText($transaction->loan->condition ?? 'good');
         
+        // Hitung total harga barang (harga x jumlah)
+        $itemPrice = $transaction->loan && $transaction->loan->item ? $transaction->loan->item->price : 0;
+        $totalPrice = $itemPrice * ($transaction->loan->amount ?? 0);
+        $totalBayar = $totalPrice + $transaction->penalty_amount;
+        
         return [
             'transaction_number' => $transaction->transaction_code,
             'date' => $transaction->paid_at 
@@ -106,8 +117,11 @@ class TransactionController extends Controller
             'borrower' => $transaction->user ? $transaction->user->name : 'Tidak diketahui',
             'item_name' => $transaction->loan && $transaction->loan->item ? $transaction->loan->item->name : '-',
             'amount' => $transaction->loan ? $transaction->loan->amount : 0,
+            'item_price' => $itemPrice,  // <-- TAMBAHKAN INI
+            'total_price' => $totalPrice,  // <-- TAMBAHKAN INI
             'condition_text' => $conditionText,
             'penalty' => $transaction->penalty_amount,
+            'total_bayar' => $totalBayar,  // <-- TAMBAHKAN INI
             'payment_method' => $transaction->payment_method ?? '-'
         ];
     }

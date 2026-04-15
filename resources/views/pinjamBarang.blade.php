@@ -272,6 +272,95 @@
             flex-wrap: wrap;
             gap: 8px;
         }
+
+        /* Style untuk modal return - teks gelap biar kelihatan */
+        .return-modal-content label,
+        .return-modal-content select,
+        .return-modal-content option {
+            color: #1f2937 !important;
+        }
+
+        .denda-info-box {
+            background-color: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .denda-info-box p {
+            color: #92400e !important;
+            font-size: 14px;
+            margin: 4px 0;
+        }
+
+        .denda-info-box .denda-nominal {
+            font-weight: bold;
+            color: #dc2626 !important;
+        }
+
+        /* Teks hitam pada tombol tutup di modal detail */
+        .modal-container .close-modal-btn {
+            color: #000000 !important;
+            font-weight: 500;
+        }
+        .modal-container .close-modal-btn:hover {
+            color: #333333 !important;
+        }
+        /* Pastikan teks dalam detail content juga nyaman */
+        #detailContent p, #detailContent strong {
+            color: #1f2937 !important;
+        }
+        
+        /* Style untuk input date */
+        input[type="date"] {
+            color-scheme: dark;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+
+        /* Style untuk Detail Peminjaman seperti Detail Transaksi */
+        .detail-transaksi-style {
+            font-family: system-ui, -apple-system, sans-serif;
+            color: #1f2937;
+        }
+        .detail-transaksi-style .detail-header {
+            border-bottom: 2px solid #e5e7eb;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+        }
+        .detail-transaksi-style .detail-header h4 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #111827;
+        }
+        .detail-transaksi-style .detail-grid {
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 12px 8px;
+            font-size: 14px;
+        }
+        .detail-transaksi-style .detail-label {
+            font-weight: 600;
+            color: #374151;
+        }
+        .detail-transaksi-style .detail-value {
+            color: #111827;
+        }
+        .detail-transaksi-style .status-borrowed-detail {
+            color: #f59e0b;
+            font-weight: 500;
+        }
+        .detail-transaksi-style .status-returned-detail {
+            color: #10b981;
+            font-weight: 500;
+        }
+        .detail-transaksi-style .penalty-amount {
+            color: #dc2626;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body class="bg-background">
@@ -472,6 +561,16 @@
                         <label class="block mb-2">Keterangan</label>
                         <input type="text" name="description" id="description" class="w-full p-2 rounded-lg" style="background-color: var(--background); border: 1px solid var(--border); color: var(--text-primary);" required>
                     </div>
+                    <div class="mb-4">
+                        <label class="block mb-2">Batas Tanggal Kembali</label>
+                        <input type="date" name="return_due_date" id="return_due_date" 
+                               class="w-full p-2 rounded-lg" 
+                               style="background-color: var(--background); border: 1px solid var(--border); color: var(--text-primary);" 
+                               min="{{ now()->addDay()->format('Y-m-d') }}"
+                               value="{{ now()->addDays(7)->format('Y-m-d') }}"
+                               required>
+                        <p class="text-xs mt-1" style="color: var(--text-muted);">Minimal 1 hari dari sekarang (default 7 hari)</p>
+                    </div>
                     <input type="hidden" name="user" value="{{ Auth::user()->name }}">
                     <input type="hidden" name="borrow_date" value="{{ now()->format('Y-m-d') }}">
                     <button type="submit" class="text-white font-medium rounded-lg text-sm px-5 py-2.5" style="background-color: var(--secondary);">Pinjam</button>
@@ -501,27 +600,27 @@
         </div>
     </div>
 
-    <!-- Modal Detail -->
+    <!-- Modal Detail dengan teks tombol tutup hitam -->
     <div id="detailModal" class="modal-overlay">
         <div class="modal-container">
             <div class="bg-white rounded-lg w-full max-w-md p-6">
                 <div class="flex justify-between items-center mb-4">
                     <h3 class="text-xl font-bold text-gray-800">Detail Peminjaman</h3>
-                    <button onclick="closeDetailModal()" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
+                    <button onclick="closeDetailModal()" class="text-gray-800 hover:text-gray-900 text-2xl close-modal-btn">&times;</button>
                 </div>
                 <div id="detailContent"></div>
                 <div class="flex justify-end mt-4">
-                    <button onclick="closeDetailModal()" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400">Tutup</button>
+                    <button onclick="closeDetailModal()" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 text-gray-800 close-modal-btn">Tutup</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal Return untuk setiap peminjaman (diperbaiki tampilannya) -->
+    <!-- Modal Return untuk setiap peminjaman (dengan denda baru: ringan 50k, berat 95k) -->
     @foreach ($loans as $loan)
     <div id="return-modal-{{ $loan->id }}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-md max-h-full">
-            <div class="relative bg-white rounded-xl shadow-lg">
+            <div class="relative bg-white rounded-xl shadow-lg return-modal-content">
                 <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
                     <h3 class="text-lg font-semibold text-gray-900 flex items-center gap-2">
                         <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -538,22 +637,33 @@
                 <form action="{{ route('items.return', $loan->id) }}" method="POST" class="p-4 md:p-5 return-form" data-loan-id="{{ $loan->id }}" data-ajax="true">
                     @csrf
                     @method('PUT')
+                    
+                    <!-- Info Denda dengan nominal baru: Rusak Ringan 50.000, Rusak Berat 95.000 -->
+                    <div class="denda-info-box mb-4">
+                        <p class="font-semibold">⚠️ Informasi Denda:</p>
+                        <p>• Rusak Ringan : <span class="denda-nominal">Rp 50.000</span></p>
+                        <p>• Rusak Berat  : <span class="denda-nominal">Rp 95.000</span></p>
+                        <p>• Hilang       : <span class="denda-nominal">Harga Barang (2x lipat)</span></p>
+                    </div>
+                    
                     <div class="mb-5">
-                        <label class="block text-gray-700 font-medium mb-2">Kondisi Barang</label>
-                        <select name="condition" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 condition-select" required>
-                            <option value="good">✅ Baik</option>
-                            <option value="light_damage">⚠️ Rusak Ringan</option>
-                            <option value="heavy_damage">❌ Rusak Berat</option>
-                            <option value="lost">💔 Hilang</option>
+                        <label class="block text-gray-800 font-semibold mb-2">Kondisi Barang</label>
+                        <select name="condition" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 condition-select text-gray-800" required>
+                            <option value="good">✅ Baik (Tanpa Denda)</option>
+                            <option value="light_damage">⚠️ Rusak Ringan (Denda Rp 50.000)</option>
+                            <option value="heavy_damage">❌ Rusak Berat (Denda Rp 95.000)</option>
+                            <option value="lost">💔 Hilang (Denda Harga Barang x2)</option>
                         </select>
                     </div>
+                    
                     <div class="mb-5 payment_method_container" style="display: none;">
-                        <label class="block text-gray-700 font-medium mb-2">Metode Pembayaran Denda</label>
-                        <select name="payment_method" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500">
+                        <label class="block text-gray-800 font-semibold mb-2">Metode Pembayaran Denda</label>
+                        <select name="payment_method" class="w-full p-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-gray-800">
                             <option value="cash">💵 Tunai</option>
                             <option value="transfer">🏦 Transfer Bank</option>
                         </select>
                     </div>
+                    
                     <button type="submit" class="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-all hover:opacity-90" style="background-color: var(--primary);">
                         ✅ Konfirmasi Kembali
                     </button>
@@ -609,6 +719,7 @@
                 const itemSelect = document.getElementById('item_id');
                 const amountInput = document.getElementById('amount');
                 const descriptionInput = document.getElementById('description');
+                const returnDueDateInput = document.getElementById('return_due_date');
                 
                 if (!itemSelect.value) {
                     alert('Silakan pilih barang terlebih dahulu');
@@ -625,6 +736,11 @@
                     return;
                 }
                 
+                if (!returnDueDateInput.value) {
+                    alert('Silakan pilih batas tanggal kembali');
+                    return;
+                }
+                
                 const selectedOption = itemSelect.options[itemSelect.selectedIndex];
                 const stock = parseInt(selectedOption.dataset.stock);
                 const requestedAmount = parseInt(amountInput.value);
@@ -638,12 +754,11 @@
                     item_id: itemSelect.value,
                     item_name: selectedOption.text.split(' (Stok:')[0],
                     amount: requestedAmount,
-                    description: descriptionInput.value.trim()
+                    description: descriptionInput.value.trim(),
+                    return_due_date: returnDueDateInput.value
                 };
                 
-                const returnDate = new Date();
-                returnDate.setDate(returnDate.getDate() + 7);
-                const formattedReturnDate = returnDate.toLocaleDateString('id-ID', {
+                const formattedReturnDate = new Date(returnDueDateInput.value).toLocaleDateString('id-ID', {
                     year: 'numeric',
                     month: 'long',
                     day: 'numeric'
@@ -656,7 +771,8 @@
                             <p><strong>Barang:</strong> ${pendingBorrowData.item_name}</p>
                             <p><strong>Jumlah:</strong> ${pendingBorrowData.amount} unit</p>
                             <p><strong>Keterangan:</strong> ${pendingBorrowData.description}</p>
-                            <p><strong>Tanggal Kembali:</strong> ${formattedReturnDate}</p>
+                            <p><strong>Tanggal Pinjam:</strong> ${new Date().toLocaleDateString('id-ID')}</p>
+                            <p><strong>Batas Kembali:</strong> ${formattedReturnDate}</p>
                         </div>
                         <div class="bg-yellow-50 p-3 rounded-lg border border-yellow-200">
                             <p class="text-sm text-yellow-800">⚠️ <strong>Perhatian:</strong></p>
@@ -705,6 +821,9 @@
                         showSuccessNotification(data.message || '✅ Berhasil meminjam barang!');
                         form.reset();
                         
+                        // Reset default value
+                        document.getElementById('return_due_date').value = '{{ now()->addDays(7)->format("Y-m-d") }}';
+                        
                         setTimeout(() => {
                             location.reload();
                         }, 2000);
@@ -751,23 +870,52 @@
             });
         }
         
-        // ======================== DETAIL ========================
+        // ======================== DETAIL (Tema seperti Detail Transaksi) ========================
         function showDetail(id) {
             fetch(`/loans/${id}`)
                 .then(response => response.json())
                 .then(data => {
+                    const statusText = data.status === 'borrowed' ? 'Dipinjam' : 'Dikembalikan';
+                    const statusClass = data.status === 'borrowed' ? 'status-borrowed-detail' : 'status-returned-detail';
+                    
                     const html = `
-                        <div class="space-y-2 text-gray-700">
-                            <p><strong>Peminjam:</strong> ${data.borrower_name || 'Tidak diketahui'}</p>
-                            <p><strong>Barang:</strong> ${data.item_name}</p>
-                            <p><strong>Jumlah:</strong> ${data.amount}</p>
-                            <p><strong>Status:</strong> ${data.status === 'borrowed' ? 'Dipinjam' : 'Dikembalikan'}</p>
-                            <p><strong>Tanggal Pinjam:</strong> ${data.borrow_date}</p>
-                            <p><strong>Batas Kembali:</strong> ${data.return_due_date || '-'}</p>
-                            <p><strong>Tanggal Kembali:</strong> ${data.return_date || 'Belum'}</p>
-                            <p><strong>Keterangan:</strong> ${data.description || '-'}</p>
-                            ${data.penalty_amount > 0 ? `<p><strong>Denda:</strong> Rp ${data.penalty_amount.toLocaleString('id-ID')}</p>` : ''}
-                            ${data.condition ? `<p><strong>Kondisi:</strong> ${data.condition_text}</p>` : ''}
+                        <div class="detail-transaksi-style">
+                            <div class="detail-header">
+                                <h4>📋 Detail Peminjaman</h4>
+                            </div>
+                            <div class="detail-grid">
+                                <div class="detail-label">Peminjam:</div>
+                                <div class="detail-value">${data.borrower_name || 'Tidak diketahui'}</div>
+                                
+                                <div class="detail-label">Barang:</div>
+                                <div class="detail-value">${data.item_name}</div>
+                                
+                                <div class="detail-label">Jumlah:</div>
+                                <div class="detail-value">${data.amount}</div>
+                                
+                                <div class="detail-label">Status:</div>
+                                <div class="${statusClass}">${statusText}</div>
+                                
+                                <div class="detail-label">Tanggal Pinjam:</div>
+                                <div class="detail-value">${data.borrow_date}</div>
+                                
+                                <div class="detail-label">Batas Kembali:</div>
+                                <div class="detail-value">${data.return_due_date || '-'}</div>
+                                
+                                <div class="detail-label">Tanggal Kembali:</div>
+                                <div class="detail-value">${data.return_date || 'Belum'}</div>
+                                
+                                <div class="detail-label">Keterangan:</div>
+                                <div class="detail-value">${data.description || '-'}</div>
+                                ${data.condition ? `
+                                <div class="detail-label">Kondisi:</div>
+                                <div class="detail-value">${data.condition_text}</div>
+                                ` : ''}
+                                ${data.penalty_amount > 0 ? `
+                                <div class="detail-label">Denda:</div>
+                                <div class="detail-value penalty-amount">Rp ${data.penalty_amount.toLocaleString('id-ID')}</div>
+                                ` : ''}
+                            </div>
                         </div>
                     `;
                     document.getElementById('detailContent').innerHTML = html;
@@ -818,7 +966,7 @@
             }
         }
         
-        // ======================== RETURN ========================
+        // ======================== RETURN dengan denda baru 50k & 95k ========================
         document.querySelectorAll('.condition-select').forEach(select => {
             select.addEventListener('change', function() {
                 const container = this.closest('form').querySelector('.payment_method_container');

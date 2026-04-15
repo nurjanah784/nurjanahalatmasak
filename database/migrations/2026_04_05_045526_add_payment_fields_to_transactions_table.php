@@ -11,7 +11,7 @@ return new class extends Migration
      */
 // Di file migration yang baru dibuat:
 public function up()
-{
+{ 
     Schema::table('transactions', function (Blueprint $table) {
         $table->decimal('amount_paid', 15, 0)->nullable()->after('penalty_amount');
         $table->decimal('change_amount', 15, 0)->nullable()->after('amount_paid');

@@ -33,11 +33,8 @@
             --sidebar-bg: #cea8c3;
             --hover-bg: #2d343b;
             
-            /* Warna untuk gradasi 2 warna: PINK ke HITAM */
             --pink-pekat: #ff1493;
             --hitam: #1a0f14;
-            
-            /* Warna OREN khusus logout */
             --oren-terang: #ffb347;
             --oren-gelap: #ff8c00;
         }
@@ -47,7 +44,6 @@
             color: var(--text-primary);
         }
 
-        /* Sidebar styling */
         #logo-sidebar {
             background-color: var(--sidebar-bg) !important;
         }
@@ -56,7 +52,6 @@
             background-color: var(--sidebar-bg) !important;
         }
 
-        /* Camera logo */
         .camera-logo {
             background-color: var(--secondary) !important;
             transition: all 0.3s ease;
@@ -67,12 +62,10 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
         }
 
-        /* Teks logo */
         .self-center.text-xl.font-semibold {
             color: var(--text-primary) !important;
         }
 
-        /* Menu items */
         .sidebar-link {
             transition: all 0.3s ease;
         }
@@ -92,7 +85,6 @@
             color: white !important;
         }
 
-        /* Active menu - dengan teks dan ikon PUTIH */
         .sidebar-link-active {
             background: linear-gradient(135deg, #d81b60 0%, #0a080a 100%) !important;
             color: white !important;
@@ -101,7 +93,6 @@
             font-weight: 600;
         }
 
-        /* Memastikan semua elemen dalam active menu berwarna putih */
         .sidebar-link-active svg,
         .sidebar-link-active span,
         .sidebar-link-active .ms-3,
@@ -110,7 +101,6 @@
             color: white !important;
         }
 
-        /* Saat active menu di-hover tetap putih */
         .sidebar-link-active:hover {
             background: linear-gradient(135deg, #d81b60 0%, #0a080a 100%) !important;
             color: white !important;
@@ -121,7 +111,6 @@
             color: white !important;
         }
 
-        /* Logout khusus */
         .logout-link:hover {
             background: linear-gradient(135deg, #ffb347 0%, #ff8c00 100%) !important;
             color: white !important;
@@ -135,7 +124,6 @@
             color: white !important;
         }
 
-        /* Warna ikon default (non-active) */
         .sidebar-link svg {
             color: var(--secondary) !important;
             transition: color 0.3s ease;
@@ -145,7 +133,6 @@
             color: var(--secondary) !important;
         }
 
-        /* Warna teks default (non-active) */
         .sidebar-link span,
         .sidebar-link button {
             color: var(--text-primary) !important;
@@ -157,18 +144,15 @@
             color: var(--text-primary) !important;
         }
 
-        /* Header */
         .bg-secondary {
             background-color: var(--secondary) !important;
         }
 
-        /* Card */
         .bg-white {
             background-color: var(--card-bg) !important;
             border: 1px solid var(--border);
         }
 
-        /* Text colors */
         h1, h2, h3, h4, h5, h6, p, span, div {
             color: var(--text-primary);
         }
@@ -189,7 +173,6 @@
             color: var(--primary-dark) !important;
         }
 
-        /* Buttons */
         .bg-primary {
             background-color: var(--primary) !important;
         }
@@ -218,7 +201,6 @@
             border-color: var(--secondary) !important;
         }
 
-        /* Table */
         .bg-gray-50 {
             background-color: var(--accent) !important;
         }
@@ -236,12 +218,10 @@
             background-color: var(--background) !important;
         }
 
-        /* Border */
         .border-gray-200, .border-gray-300 {
             border-color: var(--border) !important;
         }
 
-        /* Status badges */
         .bg-green-100 {
             background-color: rgba(16, 185, 129, 0.2) !important;
         }
@@ -270,7 +250,6 @@
             color: var(--text-primary) !important;
         }
 
-        /* Modal */
         .bg-white.rounded-lg.shadow {
             background-color: var(--card-bg) !important;
             border: 1px solid var(--border);
@@ -292,7 +271,6 @@
             color: var(--text-primary) !important;
         }
 
-        /* Form inputs */
         input, select, textarea {
             background-color: var(--background) !important;
             border: 1px solid var(--border) !important;
@@ -308,7 +286,6 @@
             background-color: var(--background) !important;
         }
 
-        /* Alert */
         .bg-green-50 {
             background-color: rgba(16, 185, 129, 0.1) !important;
             border: 1px solid var(--success);
@@ -325,47 +302,37 @@
             color: var(--danger) !important;
         }
 
-        /* Placeholder */
         ::placeholder {
             color: var(--text-muted) !important;
             opacity: 1;
         }
 
-        /* Search input */
         #table-search {
             background-color: var(--background) !important;
             border-color: var(--border) !important;
             color: var(--text-primary) !important;
         }
 
-        /* Focus ring */
         .focus\:ring-blue-500:focus {
             --tw-ring-color: var(--secondary) !important;
         }
 
-        /* Text white untuk header */
         .text-white {
             color: white !important;
         }
 
-        /* ========== TAMBAHAN CSS UNTUK WARNA KONTEN KANAN SESUAI GAMBAR ========== */
-        
-        /* Header atas - warna ungu gelap seperti gambar */
         .bg-primary {
             background: linear-gradient(135deg, #8b3e72 0%, #6b2e57 100%) !important;
         }
         
-        /* Card background - putih/krem seperti gambar */
         .bg-card {
             background-color: #fef9f0 !important;
         }
         
-        /* Judul List Inventaris - warna gelap */
         .bg-card h1 {
             color: #2c2418 !important;
         }
         
-        /* Tombol Tambah Barang - warna ungu */
         .bg-card button.bg-primary {
             background-color: #6b2e57 !important;
         }
@@ -373,12 +340,10 @@
             background-color: #8b3e72 !important;
         }
         
-        /* Table - background putih */
         table {
             background-color: #ffffff !important;
         }
         
-        /* Table header - abu-abu muda */
         thead tr {
             background-color: #e9e0d5 !important;
         }
@@ -386,7 +351,6 @@
             color: #2c2418 !important;
         }
         
-        /* Table body */
         tbody tr {
             background-color: #ffffff !important;
             border-bottom-color: #ede5db !important;
@@ -395,7 +359,6 @@
             color: #4a3b2c !important;
         }
         
-        /* Search input - background putih */
         #table-search {
             background-color: #ffffff !important;
             border-color: #e0d5c8 !important;
@@ -405,12 +368,10 @@
             color: #b8ab9a !important;
         }
         
-        /* Icon search - warna abu-abu */
         .absolute svg {
             color: #b8ab9a !important;
         }
         
-        /* Badge status - seperti gambar */
         .bg-green-100 {
             background-color: #d4edda !important;
         }
@@ -430,7 +391,6 @@
             color: #856404 !important;
         }
         
-        /* Tombol Edit - warna ungu */
         .text-blue-600 {
             color: #8b3e72 !important;
         }
@@ -438,12 +398,10 @@
             color: #5a2a46 !important;
         }
         
-        /* Modal background - putih */
         .bg-card.rounded-lg.shadow {
             background-color: #ffffff !important;
         }
         
-        /* Teks dalam modal - warna gelap */
         .bg-card .text-white,
         .bg-card h3,
         .bg-card p,
@@ -451,7 +409,6 @@
             color: #2c2418 !important;
         }
         
-        /* Input dalam modal - background putih */
         .bg-card input,
         .bg-card select {
             background-color: #ffffff !important;
@@ -459,12 +416,10 @@
             color: #2c2418 !important;
         }
         
-        /* Teks di header atas tetap putih */
         .bg-primary .text-white {
             color: white !important;
         }
         
-        /* Tombol Submit Edit dan Tambah */
         .btn-primary {
             background-color: #6b2e57 !important;
         }
@@ -472,17 +427,14 @@
             background-color: #8b3e72 !important;
         }
         
-        /* Tombol Hapus */
         .btn-danger {
             background-color: #dc3545 !important;
         }
         
-        /* Teks di dalam card yang tadinya putih diubah jadi gelap */
         .bg-card .text-white:not(.bg-primary .text-white) {
             color: #2c2418 !important;
         }
         
-        /* Nomor dan teks tabel */
         .bg-card .text-md.font-bold.text-white,
         tbody .text-white,
         tbody th.text-white,
@@ -490,18 +442,15 @@
             color: #2c2418 !important;
         }
         
-        /* Header tabel text */
         thead th .text-white,
         thead .text-white {
             color: #2c2418 !important;
         }
         
-        /* Button di dalam modal */
         .bg-card button.text-white {
             color: white !important;
         }
         
-        /* Styling untuk gambar item */
         .item-image {
             width: 50px;
             height: 50px;
@@ -542,12 +491,10 @@
         </svg>
     </button>
 
-    <!-- Sidebar dengan BACKGROUND PINK SOLID -->
     <aside id="logo-sidebar"
         class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform bg-sidebar -translate-x-full sm:translate-x-0 shadow-xl"
         aria-label="Sidebar">
         <div class="h-full flex flex-col justify-normal px-4 py-12 overflow-y-auto bg-sidebar">
-            <!-- Logo -->
             <a href="#" class="flex items-center ps-2.5 mb-10">
                 <div class="w-8 h-8 bg-gradient-to-r from-pink-500 to-pink-600 rounded-lg flex items-center justify-center">
                     <svg class="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 20 20">
@@ -557,7 +504,6 @@
                 <span class="self-center text-xl font-semibold whitespace-nowrap ml-3 text-pink-800">PinjamAlatMasak</span>
             </a>
             
-            <!-- MENU UNTUK ADMIN (LENGKAP DENGAN LIST USER) -->
             @if (auth()->user()->role === 'admin')
                 <ul class="space-y-2 py-4 font-medium">
                     <li>
@@ -592,7 +538,7 @@
                             <span class="flex-1 ms-3 whitespace-nowrap">Peminjaman</span>
                         </a>
                     </li>
-                                        <li>
+                    <li>
                         <a href="{{ route('transactions') }}"
                             class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg group {{ request()->routeIs('transactions') ? 'sidebar-link-active-effect' : 'sidebar-link-hover-effect' }}">
                             <svg class="flex-shrink-0 w-5 h-5 {{ request()->routeIs('transactions') ? 'text-white' : 'text-pink-700 group-hover:text-white' }} transition duration-75"
@@ -640,7 +586,6 @@
                     </li>
                 </ul>
             
-            <!-- MENU UNTUK PETUGAS (TANPA LIST USER) -->
             @elseif (auth()->user()->role === 'petugas')
                 <ul class="space-y-2 py-4 font-medium">
                     <li>
@@ -675,7 +620,7 @@
                             <span class="flex-1 ms-3 whitespace-nowrap">Peminjaman</span>
                         </a>
                     </li>
-                                        <li>
+                    <li>
                         <a href="{{ route('transactions') }}"
                             class="sidebar-link flex items-center p-2 text-gray-700 rounded-lg group {{ request()->routeIs('transactions') ? 'sidebar-link-active-effect' : 'sidebar-link-hover-effect' }}">
                             <svg class="flex-shrink-0 w-5 h-5 {{ request()->routeIs('transactions') ? 'text-white' : 'text-pink-700 group-hover:text-white' }} transition duration-75"
@@ -712,7 +657,6 @@
                     </li>
                 </ul>
             
-            <!-- MENU UNTUK USER -->
             @elseif (auth()->user()->role === 'user')
                 <ul class="space-y-2 py-4 font-medium">
                     <li>
@@ -765,7 +709,6 @@
         </div>
     </aside>
 
-    <!-- Content (sama seperti sebelumnya, tidak berubah) -->
     <div class="sm:ml-64 bg-background min-h-screen pb-5">
         <div class="rounded-lg">
             <div class="flex flex-col items-start justify-start px-4 py-4 h-72 mb-4 bg-primary">
@@ -800,41 +743,25 @@
                         <thead class="text-xs uppercase table-header">
                             <tr>
                                 <th scope="col" class="p-4">
-                                    <p class="text-md font-bold">
-                                        No.
-                                    </p>
+                                    <p class="text-md font-bold">No.</p>
                                 </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Gambar
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Nama Barang
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Deskripsi Barang
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Stock
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Kondisi
-                                </th>
-                                <th scope="col" class="px-6 py-3">
-                                    Action
-                                </th>
-                            \\
+                                <th scope="col" class="px-6 py-3">Gambar</th>
+                                <th scope="col" class="px-6 py-3">Nama Barang</th>
+                                <th scope="col" class="px-6 py-3">Deskripsi Barang</th>
+                                <th scope="col" class="px-6 py-3">Stock</th>
+                                <th scope="col" class="px-6 py-3">Harga</th>
+                                <th scope="col" class="px-6 py-3">Kondisi</th>
+                                <th scope="col" class="px-6 py-3">Action</th>
+                            </tr>
                         </thead>
                         <tbody>
                             @foreach ($items as $item)
                             <tr class="border-b border-custom table-row">
                                 <td class="w-4 p-4">
-                                    <p class="text-md font-bold">
-                                        {{ $loop->iteration }}
-                                    </p>
-                                
+                                    <p class="text-md font-bold">{{ $loop->iteration }}</p>
+                                </td>
                                 <td class="px-6 py-4">
                                     @php
-                                        // Cari gambar berdasarkan nama barang
                                         $imageName = strtolower(str_replace(' ', '_', $item->name)) . '.jpg';
                                         $imagePath = public_path('assets/img/' . $imageName);
                                         $imageUrl = asset('assets/img/' . $imageName);
@@ -850,16 +777,13 @@
                                             </svg>
                                         </div>
                                     @endif
-                                
+                                </td>
                                 <th scope="row" class="px-6 py-4 font-medium whitespace-nowrap">
                                     {{ $item->name }}
                                 </th>
-                                <td class="px-6 py-4">
-                                    {{ $item->description }}
-                                
-                                <td class="px-6 py-4">
-                                    {{ $item->stock }}
-                                
+                                <td class="px-6 py-4">{{ $item->description }}</td>
+                                <td class="px-6 py-4">{{ $item->stock }}</td>
+                                <td class="px-6 py-4">Rp {{ number_format($item->price, 0, ',', '.') }}</td>
                                 <td class="px-6 py-4">
                                     @if($item->kondisi == 'baik')
                                         <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Baik</span>
@@ -870,105 +794,82 @@
                                     @else
                                         <span class="bg-gray-100 text-gray-800 text-xs font-medium px-2.5 py-0.5 rounded">{{ $item->kondisi }}</span>
                                     @endif
-                                
+                                </td>
                                 <td class="px-6 py-4">
                                     <button data-modal-target="default-modal-{{ $item->id }}" data-modal-toggle="default-modal-{{ $item->id }}"
                                         class="font-medium text-blue-600 hover:underline" type="button">
                                         Edit
                                     </button>
-                                    <!-- Modal Per Item (sama seperti sebelumnya) -->
                                     <div id="default-modal-{{ $item->id }}" tabindex="-1" aria-hidden="true"
                                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                         <div class="relative p-4 w-full max-w-2xl max-h-full">
-                                            <!-- Modal content -->
                                             <div class="relative bg-card rounded-lg shadow border border-custom">
-                                                <!-- Modal header -->
                                                 <div class="flex items-center justify-between p-4 md:p-5 border-b border-custom rounded-t">
-                                                    <h3 class="text-xl font-semibold">
-                                                        Action Data
-                                                    </h3>
+                                                    <h3 class="text-xl font-semibold">Action Data</h3>
                                                     <button type="button"
                                                         class="text-gray-400 bg-transparent hover-bg rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                                                         data-modal-hide="default-modal-{{ $item->id }}">
-                                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                            viewBox="0 0 14 14">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                                         </svg>
                                                         <span class="sr-only">Close modal</span>
                                                     </button>
                                                 </div>
-                                                <!-- Modal body -->
                                                 <div class="p-4 md:p-5 space-y-4">
-                                                    <p class="text-base leading-relaxed">
-                                                        Silahkan Anda ingin melakukan Apa terhadap Data ini? Hapus atau Edit Data.
-                                                    </p>
+                                                    <p class="text-base leading-relaxed">Silahkan Anda ingin melakukan Apa terhadap Data ini? Hapus atau Edit Data.</p>
                                                 </div>
-                                                <!-- Modal footer -->
                                                 <div class="flex items-center gap-2 p-4 md:p-5 border-t border-custom rounded-b">
                                                     <button data-modal-target="editItem-modal-{{ $item->id }}" data-modal-toggle="editItem-modal-{{ $item->id }}" type="button"
                                                         class="py-2.5 px-5 ms-3 text-sm font-medium text-white focus:outline-none bg-card rounded-lg border border-custom hover-bg focus:z-10 focus:ring-4 focus:ring-gray-100">
                                                         Edit Barang
                                                     </button>
-                                                    <!-- Modal Edit Per Item -->
                                                     <div id="editItem-modal-{{ $item->id }}" tabindex="-1" aria-hidden="true"
                                                         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
                                                         <div class="relative p-4 w-full max-w-2xl max-h-full">
-                                                            <!-- Modal content -->
                                                             <div class="relative bg-card rounded-lg shadow border border-custom">
-                                                                <!-- Modal header -->
                                                                 <div class="flex items-center justify-between p-4 md:p-5 border-b border-custom rounded-t">
-                                                                    <h3 class="text-xl font-semibold">
-                                                                        Edit Barang
-                                                                    </h3>
+                                                                    <h3 class="text-xl font-semibold">Edit Barang</h3>
                                                                     <button type="button"
                                                                         class="text-gray-400 bg-transparent hover-bg rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                                                                         data-modal-hide="editItem-modal-{{ $item->id }}">
-                                                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                                                            viewBox="0 0 14 14">
-                                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                                                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                                                                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                                                                         </svg>
                                                                         <span class="sr-only">Close modal</span>
                                                                     </button>
                                                                 </div>
-                                                                <!-- Modal body -->
                                                                 <form action="{{ route('items.update', $item->id) }}" method="POST" enctype="multipart/form-data">
                                                                     @csrf
                                                                     @method('PUT')
                                                                     <div class="p-4 md:p-5 space-y-4">
                                                                         <div class="mb-5">
-                                                                            <label for="name-{{ $item->id }}"
-                                                                                class="block mb-2 text-sm font-medium">
-                                                                                Nama Barang
-                                                                            </label>
+                                                                            <label for="name-{{ $item->id }}" class="block mb-2 text-sm font-medium">Nama Barang</label>
                                                                             <input type="text" id="name-{{ $item->id }}" name="name"
                                                                                 class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                                                                                 value="{{ $item->name }}" required />
                                                                         </div>
                                                                         <div class="mb-5">
-                                                                            <label for="description-{{ $item->id }}"
-                                                                                class="block mb-2 text-sm font-medium">Deskripsi Barang
-                                                                            </label>
+                                                                            <label for="description-{{ $item->id }}" class="block mb-2 text-sm font-medium">Deskripsi Barang</label>
                                                                             <input type="text" id="description-{{ $item->id }}" name="description"
                                                                                 class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                                                                                 value="{{ $item->description }}" required />
                                                                         </div>
                                                                         <div class="mb-5">
-                                                                            <label for="stock-{{ $item->id }}"
-                                                                                class="block mb-2 text-sm font-medium">Stock Barang
-                                                                            </label>
-                                                                            <input type="text" id="stock-{{ $item->id }}" name="stock"
+                                                                            <label for="stock-{{ $item->id }}" class="block mb-2 text-sm font-medium">Stock Barang</label>
+                                                                            <input type="number" id="stock-{{ $item->id }}" name="stock"
                                                                                 class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-                                                                                value="{{ $item->stock }}" required />
+                                                                                value="{{ $item->stock }}" required min="0" />
                                                                         </div>
                                                                         <div class="mb-5">
-                                                                            <label for="kondisi-{{ $item->id }}" class="block mb-2 text-sm font-medium">
-                                                                                Kondisi Barang
-                                                                            </label>
-                                                                            <select id="kondisi-{{ $item->id }}" name="kondisi"
+                                                                            <label for="price-{{ $item->id }}" class="block mb-2 text-sm font-medium">Harga Barang (Rp)</label>
+                                                                            <input type="number" id="price-{{ $item->id }}" name="price"
                                                                                 class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-                                                                                required>
+                                                                                value="{{ $item->price }}" required min="0" />
+                                                                        </div>
+                                                                        <div class="mb-5">
+                                                                            <label for="kondisi-{{ $item->id }}" class="block mb-2 text-sm font-medium">Kondisi Barang</label>
+                                                                            <select id="kondisi-{{ $item->id }}" name="kondisi"
+                                                                                class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" required>
                                                                                 <option value="">Pilih Kondisi</option>
                                                                                 <option value="baik" {{ $item->kondisi == 'baik' ? 'selected' : '' }}>Baik</option>
                                                                                 <option value="rusak" {{ $item->kondisi == 'rusak' ? 'selected' : '' }}>Rusak</option>
@@ -976,9 +877,7 @@
                                                                             </select>
                                                                         </div>
                                                                         <div class="mb-5">
-                                                                            <label for="image-{{ $item->id }}" class="block mb-2 text-sm font-medium">
-                                                                                Gambar Barang
-                                                                            </label>
+                                                                            <label for="image-{{ $item->id }}" class="block mb-2 text-sm font-medium">Gambar Barang</label>
                                                                             <input type="file" id="image-{{ $item->id }}" name="image" accept="image/*"
                                                                                 class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5">
                                                                             @if($item->foto)
@@ -986,8 +885,6 @@
                                                                             @endif
                                                                         </div>
                                                                     </div>
-                                                    
-                                                                    <!-- Modal footer -->
                                                                     <div class="flex items-center p-4 md:p-5 border-t border-custom rounded-b">
                                                                         <button type="submit"
                                                                             class="btn-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
@@ -998,7 +895,6 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     <form action="{{ route('items.delete', $item->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus barang ini?')">
                                                         @csrf
                                                         @method('DELETE')
@@ -1011,77 +907,60 @@
                                             </div>
                                         </div>
                                     </div>
-                                
-
-                              
+                                </td>
+                            </tr>
                             @endforeach
                         </tbody>
-                      
+                    </table>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- TambahBarang modal (sama seperti sebelumnya) -->
+    <!-- TambahBarang modal -->
     <div id="addItem-modal" tabindex="-1" aria-hidden="true"
         class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
         <div class="relative p-4 w-full max-w-2xl max-h-full">
-            <!-- Modal content -->
             <div class="relative bg-card rounded-lg shadow border border-custom">
-                <!-- Modal header -->
                 <div class="flex items-center justify-between p-4 md:p-5 border-b border-custom rounded-t">
-                    <h3 class="text-xl font-semibold">
-                        Tambah Barang
-                    </h3>
+                    <h3 class="text-xl font-semibold">Tambah Barang</h3>
                     <button type="button"
                         class="text-gray-400 bg-transparent hover-bg rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center"
                         data-modal-hide="addItem-modal">
-                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
-                            viewBox="0 0 14 14">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                        <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                         </svg>
                         <span class="sr-only">Close modal</span>
                     </button>
                 </div>
                 <form action="{{ route('items') }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    <!-- Modal body -->
                     <div class="p-4 md:p-5 space-y-4">
                         <div class="mb-5">
-                            <label for="name"
-                                class="block mb-2 text-sm font-medium">
-                                Nama Barang
-                            </label>
+                            <label for="name" class="block mb-2 text-sm font-medium">Nama Barang</label>
                             <input type="text" id="name" name="name"
                                 class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
                                 placeholder="Laptop" required />
                         </div>
                         <div class="mb-5">
-                            <label for="description"
-                                class="block mb-2 text-sm font-medium">
-                                Deskripsi Barang
-                            </label>
+                            <label for="description" class="block mb-2 text-sm font-medium">Deskripsi Barang</label>
                             <input type="text" id="description" name="description"
-                                class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-                                required />
+                                class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" required />
                         </div>
                         <div class="mb-5">
-                            <label for="stock"
-                                class="block mb-2 text-sm font-medium">
-                                Stock Barang
-                            </label>
-                            <input type="text" id="stock" name="stock"
-                                class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-                                required />
+                            <label for="stock" class="block mb-2 text-sm font-medium">Stock Barang</label>
+                            <input type="number" id="stock" name="stock"
+                                class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" required min="0" />
                         </div>
                         <div class="mb-5">
-                            <label for="kondisi" class="block mb-2 text-sm font-medium">
-                                Kondisi Barang
-                            </label>
+                            <label for="price" class="block mb-2 text-sm font-medium">Harga Barang (Rp)</label>
+                            <input type="number" id="price" name="price"
+                                class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" required min="0" />
+                        </div>
+                        <div class="mb-5">
+                            <label for="kondisi" class="block mb-2 text-sm font-medium">Kondisi Barang</label>
                             <select id="kondisi" name="kondisi"
-                                class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5"
-                                required>
+                                class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5" required>
                                 <option value="">Pilih Kondisi</option>
                                 <option value="baik">Baik</option>
                                 <option value="rusak">Rusak</option>
@@ -1089,15 +968,12 @@
                             </select>
                         </div>
                         <div class="mb-5">
-                            <label for="image" class="block mb-2 text-sm font-medium">
-                                Gambar Barang
-                            </label>
+                            <label for="image" class="block mb-2 text-sm font-medium">Gambar Barang</label>
                             <input type="file" id="image" name="image" accept="image/*"
                                 class="bg-card border border-custom text-sm rounded-lg focus:ring-primary focus:border-primary block w-full p-2.5">
                             <p class="text-xs text-gray-500 mt-1">Format: JPG, PNG. Kosongkan jika tidak ingin menambah gambar.</p>
                         </div>
                     </div>
-                    <!-- Modal footer -->
                     <div class="flex items-center p-4 md:p-5 border-t border-custom rounded-b">
                         <button type="submit"
                             class="btn-primary focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">
@@ -1109,7 +985,6 @@
         </div>
     </div>
 
-    <!-- Alert messages (sama seperti sebelumnya) -->
     @if (session('success'))
         <div id="alert-3" class="fixed top-4 right-4 z-50 flex items-center p-4 mb-4 text-white rounded-lg bg-success" role="alert">
             <svg class="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -1159,27 +1034,17 @@
         </div>
     @endif
 
-    <!-- Flowbite JS -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-
-    <!-- JavaScript -->
     <script>
-        // Ambil input search dan table body
         const searchInput = document.getElementById('table-search');
         const tableRows = document.querySelectorAll('tbody tr');
 
-        // Fungsi pencarian berdasarkan kolom "Product name"
         if (searchInput) {
             searchInput.addEventListener('keyup', function() {
                 const searchTerm = searchInput.value.toLowerCase();
-
                 tableRows.forEach(row => {
                     const productName = row.querySelector('th')?.textContent.toLowerCase() || '';
-                    if (productName.includes(searchTerm)) {
-                        row.style.display = '';
-                    } else {
-                        row.style.display = 'none';
-                    }
+                    row.style.display = productName.includes(searchTerm) ? '' : 'none';
                 });
             });
         }
@@ -1193,9 +1058,7 @@
                 }, 3000);
             }
         }
-
         showAlert()
     </script>
 </body>
-
 </html>

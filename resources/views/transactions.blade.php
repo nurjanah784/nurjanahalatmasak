@@ -183,45 +183,58 @@
                 <!-- Tabel Transaksi -->
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
                     <table class="w-full text-sm text-left rtl:text-right" style="color: var(--text-secondary);">
-                        <thead class="text-xs uppercase" style="background-color: var(--accent);">
+                       <thead class="text-xs uppercase" style="background-color: var(--accent);">
                             <tr>
                                 <th class="p-4"><p class="text-md font-bold" style="color: white;">No.</p></th>
                                 <th class="px-6 py-3" style="color: white;">Kode Transaksi</th>
                                 <th class="px-6 py-3" style="color: white;">Peminjam</th>
                                 <th class="px-6 py-3" style="color: white;">Barang</th>
+                                <th class="px-6 py-3" style="color: white;">Jumlah</th>
+                                <th class="px-6 py-3" style="color: white;">Harga Barang</th>
                                 <th class="px-6 py-3" style="color: white;">Denda</th>
+                                <th class="px-6 py-3" style="color: white;">Total</th>
                                 <th class="px-6 py-3" style="color: white;">Status</th>
                                 <th class="px-6 py-3" style="color: white;">Tanggal</th>
                                 <th class="px-6 py-3" style="color: white;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($transactions as $transaction)
-                            <tr class="border-b transition-colors" style="background-color: var(--card-bg); border-color: var(--border);">
-                                <td class="w-4 p-4">{{ $loop->iteration }}</td>
-                                <td class="px-6 py-4 font-mono text-sm">{{ $transaction->transaction_code }}</td>
-                                <td class="px-6 py-4">{{ $transaction->user->name ?? 'Tidak diketahui' }}</td>
-                                <td class="px-6 py-4">{{ $transaction->loan->item->name ?? '-' }}</td>
-                                <td class="px-6 py-4">Rp {{ number_format($transaction->penalty_amount, 0, ',', '.') }}</td>
-                                <td class="px-6 py-4">
-                                    @if($transaction->status == 'paid')
-                                        <span class="badge-paid">Lunas</span>
-                                    @else
-                                        <span class="badge-unpaid">Belum Lunas</span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4">{{ $transaction->created_at->format('d/m/Y H:i') }}</td>
-                                <td class="px-6 py-4">
-                                    <button onclick="showDetail({{ $transaction->id }})" class="text-white font-medium rounded-lg text-sm px-3 py-1.5" style="background-color: var(--info);">Detail</button>
-                                    @if($transaction->status == 'unpaid')
-                                    <button onclick="payTransaction({{ $transaction->id }}, {{ $transaction->penalty_amount }})" class="text-white font-medium rounded-lg text-sm px-3 py-1.5 ml-2" style="background-color: var(--success);">Bayar</button>
-                                    @endif
-                                    <button onclick="printStruk({{ $transaction->id }})" class="text-white font-medium rounded-lg text-sm px-3 py-1.5 ml-2" style="background-color: var(--primary);">Cetak</button>
-                                </td>
-                            </tr>
-                            @empty
-                            <tr><td colspan="8" class="text-center py-8" style="color: var(--text-muted);">Belum ada data transaksi</td></tr>
-                            @endforelse
+                           @forelse ($transactions as $transaction)
+                           @php
+                               // Perbaikan perhitungan total: Harga Barang * Jumlah + Denda
+                               $hargaSatuan = $transaction->loan->item->price ?? 0;
+                               $jumlahBarang = $transaction->loan->amount ?? 1;
+                               $totalHargaBarang = $hargaSatuan * $jumlahBarang;
+                               $totalBayar = $totalHargaBarang + ($transaction->penalty_amount ?? 0);
+                           @endphp
+                           <tr class="border-b transition-colors" style="background-color: var(--card-bg); border-color: var(--border);">
+                               <td class="w-4 p-4">{{ $loop->iteration }}</td>
+                               <td class="px-6 py-4 font-mono text-sm">{{ $transaction->transaction_code }}</td>
+                               <td class="px-6 py-4">{{ $transaction->user->name ?? 'Tidak diketahui' }}</td>
+                               <td class="px-6 py-4">{{ $transaction->loan->item->name ?? '-' }}</td>
+                               <td class="px-6 py-4">{{ $jumlahBarang }}</td>
+                               <td class="px-6 py-4">Rp {{ number_format($hargaSatuan, 0, ',', '.') }}</td>
+                               <td class="px-6 py-4">Rp {{ number_format($transaction->penalty_amount ?? 0, 0, ',', '.') }}</td>
+                               <td class="px-6 py-4 font-bold">Rp {{ number_format($totalBayar, 0, ',', '.') }}</td>
+                               <td class="px-6 py-4">
+                                   @if($transaction->status == 'paid')
+                                       <span class="badge-paid">Lunas</span>
+                                   @else
+                                       <span class="badge-unpaid">Belum Lunas</span>
+                                   @endif
+                               </td>
+                               <td class="px-6 py-4">{{ $transaction->created_at->format('d/m/Y H:i') }}</td>
+                               <td class="px-6 py-4">
+                                   <button onclick="showDetail({{ $transaction->id }})" class="text-white font-medium rounded-lg text-sm px-3 py-1.5" style="background-color: var(--info);">Detail</button>
+                                   @if($transaction->status == 'unpaid')
+                                   <button onclick="payTransaction({{ $transaction->id }}, {{ $totalBayar }})" class="text-white font-medium rounded-lg text-sm px-3 py-1.5 ml-2" style="background-color: var(--success);">Bayar</button>
+                                   @endif
+                                   <button onclick="printStruk({{ $transaction->id }})" class="text-white font-medium rounded-lg text-sm px-3 py-1.5 ml-2" style="background-color: var(--primary);">Cetak</button>
+                               </td>
+                           </tr>
+                           @empty
+                           <tr><td colspan="11" class="text-center py-8" style="color: var(--text-muted);">Belum ada data transaksi</td></tr>
+                           @endforelse
                         </tbody>
                     </table>
                 </div>
@@ -231,155 +244,218 @@
         </div>
     </div>
 
-    <!-- Modal Detail -->
-    <div id="detailModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white rounded-lg w-full max-w-md p-6">
-            <h3 class="text-xl font-bold mb-4 text-gray-800">Detail Transaksi</h3>
-            <div id="detailContent"></div>
-            <div class="flex justify-end mt-4">
-                <button onclick="closeModal('detailModal')" class="px-4 py-2 bg-gray-300 rounded-lg">Tutup</button>
-            </div>
+   <!-- Modal Detail -->
+<div id="detailModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all">
+        <div class="flex justify-between items-center border-b pb-3 mb-4">
+            <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                <svg class="w-6 h-6 text-pink-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                Detail Transaksi
+            </h3>
+            <button onclick="closeModal('detailModal')" class="text-gray-600 hover:text-gray-900 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+        </div>
+        <div id="detailContent" class="space-y-3 text-gray-700"></div>
+        <div class="flex justify-end mt-6">
+            <button onclick="closeModal('detailModal')" class="px-5 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg transition font-medium shadow-sm">Tutup</button>
         </div>
     </div>
+</div>
 
-    <!-- Modal Bayar -->
-    <div id="paymentModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white rounded-lg w-full max-w-md p-6">
-            <h3 class="text-xl font-bold mb-4 text-gray-800">Konfirmasi Pembayaran</h3>
-            <p class="mb-4">Total Denda: <span id="totalDenda" class="font-bold text-red-600"></span></p>
-            <select id="paymentMethod" class="w-full p-2 border rounded-lg mb-4">
-                <option value="cash">Cash / Tunai</option>
-                <option value="transfer">Transfer Bank</option>
+    <!-- MODAL BAYAR -->
+<div id="paymentModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all">
+        <div class="flex justify-between items-center border-b pb-3 mb-4">
+            <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                Konfirmasi Pembayaran
+            </h3>
+            <button onclick="closeModal('paymentModal')" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <div class="bg-yellow-50 rounded-xl p-4 mb-4 border-l-4 border-yellow-500">
+            <p class="font-semibold text-yellow-800 mb-2">⚠️ Informasi Denda:</p>
+            <p class="text-sm text-yellow-700">• Rusak Ringan : <span class="font-bold text-red-600">Rp 50.000</span></p>
+            <p class="text-sm text-yellow-700">• Rusak Berat : <span class="font-bold text-red-600">Rp 95.000</span></p>
+            <p class="text-sm text-yellow-700">• Hilang : <span class="font-bold text-red-600">Harga Barang (2x lipat)</span></p>
+        </div>
+
+        <div class="bg-pink-50 rounded-xl p-4 mb-4 text-center">
+            <p class="text-sm text-gray-600">Total Denda yang Harus Dibayar</p>
+            <p class="text-2xl font-bold text-red-600" id="totalDenda">Rp 0</p>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-800 font-semibold mb-2">🏦 Pilih Metode Pembayaran</label>
+            <select id="paymentMethod" class="w-full p-3 border border-gray-300 rounded-xl focus:ring-pink-500 focus:border-pink-500 text-gray-800 bg-white font-medium">
+                <option value="cash" class="text-gray-800">💵 Cash / Tunai</option>
+                <option value="transfer" class="text-gray-800">🏦 Transfer Bank</option>
             </select>
-            <div class="flex justify-end gap-2">
-                <button onclick="closeModal('paymentModal')" class="px-4 py-2 bg-gray-300 rounded-lg">Batal</button>
-                <button onclick="confirmPayment()" class="px-4 py-2 bg-green-600 text-white rounded-lg">Konfirmasi</button>
-            </div>
+        </div>
+
+        <div class="flex justify-end gap-3 mt-4">
+            <button onclick="closeModal('paymentModal')" class="px-5 py-2 bg-gray-300 hover:bg-gray-400 rounded-lg transition font-semibold text-gray-800">Tutup</button>
+            <button onclick="confirmPayment()" class="px-5 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition font-semibold shadow-md">Konfirmasi & Bayar</button>
         </div>
     </div>
+</div>
 
     <!-- Modal Struk -->
-    <div id="receiptModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
-        <div class="bg-white rounded-lg w-full max-w-md p-6">
-            <div id="receiptContent"></div>
-            <div class="flex justify-end gap-2 mt-4">
-                <button onclick="closeModal('receiptModal')" class="px-4 py-2 bg-gray-300 rounded-lg">Tutup</button>
-                <button onclick="printReceiptNow()" class="px-4 py-2 bg-pink-600 text-white rounded-lg">Cetak</button>
+    <div id="receiptModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm">
+        <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md p-6 transform transition-all">
+            <div class="flex justify-between items-center border-b pb-3 mb-4">
+                <h3 class="text-xl font-bold text-gray-800 flex items-center gap-2">
+                    <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                    Struk Pembayaran
+                </h3>
+                <button onclick="closeModal('receiptModal')" class="text-gray-400 hover:text-gray-600">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                </button>
+            </div>
+            <div id="receiptContent" class="bg-gray-50 rounded-xl p-4"></div>
+            <div class="flex justify-end gap-3 mt-6">
+                <button onclick="closeModal('receiptModal')" class="px-5 py-2 bg-gray-200 hover:bg-gray-300 rounded-lg transition font-medium">Tutup</button>
+                <button onclick="printReceiptNow()" class="px-5 py-2 bg-pink-600 hover:bg-pink-700 text-white rounded-lg transition font-medium shadow-md flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path></svg>
+                    Cetak Struk
+                </button>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
-<script>
-    var currentTransactionId = null;
-    var currentPenalty = 0;
+    <script>
+        var currentTransactionId = null;
+        var currentPenalty = 0;
 
-    function showModal(id) {
-        document.getElementById(id).classList.remove('hidden');
-        document.getElementById(id).classList.add('flex');
-    }
-
-    function closeModal(id) {
-        document.getElementById(id).classList.add('hidden');
-        document.getElementById(id).classList.remove('flex');
-    }
-
-    async function showDetail(id) {
-        try {
-            let res = await fetch('/transactions/' + id);
-            let data = await res.json();
-            let html = '<div class="space-y-2">' +
-                '<p><strong>Kode:</strong> ' + data.transaction_code + '</p>' +
-                '<p><strong>Peminjam:</strong> ' + data.user_name + '</p>' +
-                '<p><strong>Barang:</strong> ' + data.item_name + '</p>' +
-                '<p><strong>Jumlah:</strong> ' + data.amount + '</p>' +
-                '<p><strong>Kondisi:</strong> ' + data.condition_text + '</p>' +
-                '<p><strong>Denda:</strong> Rp ' + data.penalty_amount.toLocaleString('id-ID') + '</p>' +
-                '<p><strong>Status:</strong> ' + (data.status === 'paid' ? 'LUNAS' : 'BELUM LUNAS') + '</p>' +
-                '</div>';
-            document.getElementById('detailContent').innerHTML = html;
-            showModal('detailModal');
-        } catch(e) {
-            alert('Gagal ambil detail');
+        function showModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+            document.getElementById(id).classList.add('flex');
         }
-    }
 
-    function payTransaction(id, penalty) {
-        currentTransactionId = id;
-        currentPenalty = penalty;
-        document.getElementById('totalDenda').innerHTML = 'Rp ' + penalty.toLocaleString('id-ID');
-        showModal('paymentModal');
-    }
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
 
-    async function confirmPayment() {
-        let method = document.getElementById('paymentMethod').value;
-        let token = document.querySelector('input[name="_token"]').value;
-        
-        try {
-            let res = await fetch('/transactions/' + currentTransactionId + '/pay', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token },
-                body: JSON.stringify({ payment_method: method })
-            });
-            let result = await res.json();
-            if (result.success) {
-                closeModal('paymentModal');
-                showReceiptModal(result.receipt);
-                setTimeout(() => location.reload(), 3000);
-            } else {
-                alert(result.message || 'Gagal');
+         async function showDetail(id) {
+            try {
+                let res = await fetch('/transactions/' + id);
+                let data = await res.json();
+                let totalHargaItem = (data.item_price || 0) * (data.amount || 0);
+                let totalBayar = totalHargaItem + (data.penalty_amount || 0);
+                let html = `
+                    <div class="space-y-3">
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Kode Transaksi:</span><span class="font-mono">${data.transaction_code}</span></div>
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Peminjam:</span><span>${data.user_name}</span></div>
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Barang:</span><span>${data.item_name}</span></div>
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Jumlah:</span><span>${data.amount}</span></div>
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Harga Satuan:</span><span>Rp ${(data.item_price || 0).toLocaleString('id-ID')}</span></div>
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Total Harga Barang:</span><span>Rp ${totalHargaItem.toLocaleString('id-ID')}</span></div>
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Kondisi:</span><span>${data.condition_text}</span></div>
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Denda:</span><span class="text-red-600 font-bold">Rp ${(data.penalty_amount || 0).toLocaleString('id-ID')}</span></div>
+                        <div class="flex justify-between border-b pb-2"><span class="font-semibold">Total Dibayar:</span><span class="text-green-600 font-bold">Rp ${totalBayar.toLocaleString('id-ID')}</span></div>
+                        <div class="flex justify-between pt-2"><span class="font-semibold">Status:</span><span class="px-3 py-1 rounded-full text-xs font-bold ${data.status === 'paid' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}">${data.status === 'paid' ? 'LUNAS' : 'BELUM LUNAS'}</span></div>
+                    </div>
+                `;
+                document.getElementById('detailContent').innerHTML = html;
+                showModal('detailModal');
+            } catch(e) {
+                alert('Gagal ambil detail');
             }
-        } catch(e) {
-            alert('Error: ' + e.message);
         }
-    }
-
-    async function printStruk(id) {
-        try {
-            let res = await fetch('/transactions/' + id + '/receipt');
-            let data = await res.json();
-            showReceiptModal(data.receipt);
-        } catch(e) {
-            alert('Gagal cetak struk');
+        function payTransaction(id, penalty) {
+            currentTransactionId = id;
+            currentPenalty = penalty;
+            document.getElementById('totalDenda').innerHTML = 'Rp ' + penalty.toLocaleString('id-ID');
+            showModal('paymentModal');
         }
-    }
 
-    function showReceiptModal(data) {
-        let html = '';
-        html += '<div class="receipt text-center">';
-        html += '<h3 class="font-bold">PINJAM ALAT MASAK</h3>';
-        html += '<h4>Struk Transaksi</h4>';
-        html += '<hr class="my-2 border-dashed">';
-        html += '<div class="text-left">';
-        html += '<p><strong>No:</strong> ' + data.transaction_number + '</p>';
-        html += '<p><strong>Tgl:</strong> ' + data.date + '</p>';
-        html += '<p><strong>Petugas:</strong> ' + data.officer + '</p>';
-        html += '<hr class="my-2">';
-        html += '<p><strong>Peminjam:</strong> ' + data.borrower + '</p>';
-        html += '<p><strong>Barang:</strong> ' + data.item_name + '</p>';
-        html += '<p><strong>Jumlah:</strong> ' + data.amount + '</p>';
-        html += '<p><strong>Kondisi:</strong> ' + data.condition_text + '</p>';
-        html += '<hr class="my-2">';
-        html += '<p><strong>Denda:</strong> Rp ' + data.penalty.toLocaleString('id-ID') + '</p>';
-        html += '<p><strong>Metode:</strong> ' + (data.payment_method === 'cash' ? 'Tunai' : 'Transfer') + '</p>';
-        html += '<p class="font-bold mt-2">TOTAL: Rp ' + data.penalty.toLocaleString('id-ID') + '</p>';
-        html += '<hr class="my-2">';
-        html += '<p class="text-xs">Terima kasih</p>';
-        html += '</div></div>';
-        
-        document.getElementById('receiptContent').innerHTML = html;
-        showModal('receiptModal');
-    }
+        async function confirmPayment() {
+            let method = document.getElementById('paymentMethod').value;
+            let token = document.querySelector('input[name="_token"]') ? document.querySelector('input[name="_token"]').value : '{{ csrf_token() }}';
+            
+            try {
+                let res = await fetch('/transactions/' + currentTransactionId + '/pay', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': token },
+                    body: JSON.stringify({ payment_method: method })
+                });
+                let result = await res.json();
+                if (result.success) {
+                    closeModal('paymentModal');
+                    showReceiptModal(result.receipt);
+                    setTimeout(() => location.reload(), 3000);
+                } else {
+                    alert(result.message || 'Gagal');
+                }
+            } catch(e) {
+                alert('Error: ' + e.message);
+            }
+        }
 
-    function printReceiptNow() {
-        let content = document.getElementById('receiptContent').innerHTML;
-        let win = window.open('', '_blank');
-        win.document.write('<html><head><title>Struk Transaksi</title>');
-        win.document.write('<style>.receipt{font-family:monospace;padding:20px;width:350px;margin:auto;}</style>');
-        win.document.write('</head><body>' + content + '</body></html>');
-        win.document.close();
-        win.print();
-    }
-</script>
+        async function printStruk(id) {
+            try {
+                let res = await fetch('/transactions/' + id + '/receipt');
+                let data = await res.json();
+                showReceiptModal(data.receipt);
+            } catch(e) {
+                alert('Gagal cetak struk');
+            }
+        }
+
+        function showReceiptModal(data) {
+    let totalHargaBarang = (data.item_price || 0) * (data.amount || 0);
+    let totalBayar = totalHargaBarang + (data.penalty || 0);
+    
+    let html = `
+        <div class="receipt text-center font-mono text-sm">
+            <div class="border-b pb-2 mb-2">
+                <h3 class="font-bold text-base">PINJAM ALAT MASAK</h3>
+                <p class="text-xs">Jl. Contoh No. 123, Kota Contoh</p>
+                <p class="text-xs">Telp: 0812-3456-7890</p>
+            </div>
+            <h4 class="font-bold mb-2">STRUK PEMBAYARAN</h4>
+            <div class="text-left space-y-1 text-xs">
+                <div class="flex justify-between"><span>No. Transaksi:</span><span>${data.transaction_number}</span></div>
+                <div class="flex justify-between"><span>Tanggal:</span><span>${data.date}</span></div>
+                <div class="flex justify-between"><span>Petugas:</span><span>${data.officer}</span></div>
+                <div class="border-t border-dashed my-2"></div>
+                <div class="flex justify-between"><span>Peminjam:</span><span>${data.borrower}</span></div>
+                <div class="flex justify-between"><span>Barang:</span><span>${data.item_name}</span></div>
+                <div class="flex justify-between"><span>Jumlah:</span><span>${data.amount}</span></div>
+                <div class="flex justify-between"><span>Harga/@:</span><span>Rp ${(data.item_price || 0).toLocaleString('id-ID')}</span></div>
+                <div class="flex justify-between"><span>Total Harga:</span><span>Rp ${totalHargaBarang.toLocaleString('id-ID')}</span></div>
+                <div class="flex justify-between"><span>Kondisi:</span><span>${data.condition_text}</span></div>
+                <div class="border-t border-dashed my-2"></div>
+                <div class="flex justify-between"><span>Denda:</span><span>Rp ${(data.penalty || 0).toLocaleString('id-ID')}</span></div>
+                <div class="flex justify-between"><span>Metode:</span><span>${data.payment_method === 'cash' ? 'Tunai' : 'Transfer'}</span></div>
+                <div class="border-t border-solid my-2"></div>
+                <div class="flex justify-between font-bold"><span>TOTAL BAYAR:</span><span>Rp ${totalBayar.toLocaleString('id-ID')}</span></div>
+                <div class="border-t border-dashed my-2"></div>
+                <p class="text-center text-xs">Terima kasih telah membayar</p>
+                <p class="text-center text-xs">Barang harus dikembalikan tepat waktu ❤️</p>
+            </div>
+        </div>
+    `;
+    document.getElementById('receiptContent').innerHTML = html;
+    showModal('receiptModal');
+}
+
+        function printReceiptNow() {
+            let content = document.getElementById('receiptContent').innerHTML;
+            let win = window.open('', '_blank');
+            win.document.write('<html><head><title>Struk Transaksi</title>');
+            win.document.write('<style>body{font-family:monospace;margin:0;padding:20px;display:flex;justify-content:center;}.receipt{width:350px;margin:auto;}</style>');
+            win.document.write('</head><body>' + content + '</body></html>');
+            win.document.close();
+            win.print();
+        }
+    </script>
 </body>
 </html>

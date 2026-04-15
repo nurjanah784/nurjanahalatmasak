@@ -33,6 +33,7 @@ class LoanController extends Controller
             'item_id' => 'required|exists:items,id',
             'user' => 'required|string',
             'borrow_date' => 'required|date',
+            'return_due_date' => 'required|date|after:borrow_date',
             'description' => 'required|string',
             'amount' => 'required|integer|min:1|max:' . Item::find($request->item_id)->stock,
         ]);
@@ -49,6 +50,7 @@ class LoanController extends Controller
             'user_id' => Auth::id(),
             'item_id' => $item->id,
             'borrow_date' => $request->borrow_date,
+            'return_due_date' => $request->return_due_date,
             'description' => $request->description,
             'amount' => $request->amount,
             'status' => 'borrowed',
@@ -63,14 +65,14 @@ class LoanController extends Controller
         ]);
 
         if ($request->ajax()) {
-        return response()->json([
-            'success' => true, 
-            'message' => 'Berhasil meminjam barang!'
-        ]);
+            return response()->json([
+                'success' => true, 
+                'message' => 'Berhasil meminjam barang!'
+            ]);
+        }
+        
+        return back()->with('success', 'Peminjaman berhasil!');
     }
-    
-    return back()->with('success', 'Peminjaman berhasil!');
-}
 
     public function return(Request $request, Loan $loan)
     {
@@ -139,11 +141,15 @@ class LoanController extends Controller
 
         $transaction = null;
         if ($penalty > 0) {
+            // Hitung total harga barang yang dipinjam (harga x jumlah)
+            $totalPrice = ($item->price ?? 0) * $loan->amount;
+            
             $transaction = Transaction::create([
                 'transaction_code' => 'TRX-' . strtoupper(uniqid()),
                 'loan_id' => $loan->id,
                 'user_id' => $loan->user_id,
                 'penalty_amount' => $penalty,
+                'total_price' => $totalPrice,  // <-- TAMBAHKAN INI
                 'payment_method' => $request->payment_method,
                 'status' => 'unpaid'
             ]);
@@ -170,6 +176,9 @@ class LoanController extends Controller
             $receipt = null;
             if ($penalty > 0 && $transaction) {
                 $user = \App\Models\User::find($loan->user_id);
+                $totalPrice = ($item->price ?? 0) * $loan->amount;
+                $totalBayar = $totalPrice + $penalty;
+                
                 $receipt = [
                     'transaction_number' => $transaction->transaction_code,
                     'date' => now()->format('d/m/Y H:i'),
@@ -177,8 +186,11 @@ class LoanController extends Controller
                     'borrower' => $user ? $user->name : 'Tidak diketahui',
                     'item_name' => $item->name,
                     'amount' => $loan->amount,
+                    'item_price' => $item->price ?? 0,
+                    'total_price' => $totalPrice,
                     'condition_text' => $conditionText,
                     'penalty' => $penalty,
+                    'total_bayar' => $totalBayar,
                     'payment_method' => $request->payment_method
                 ];
             }
@@ -270,6 +282,8 @@ class LoanController extends Controller
             'item_name' => $loan->item->name,
             'borrower_name' => $loan->user ? $loan->user->name : 'Tidak diketahui',
             'amount' => $loan->amount,
+            'item_price' => $loan->item->price ?? 0,
+            'total_price' => ($loan->item->price ?? 0) * $loan->amount,
             'status' => $loan->status,
             'borrow_date' => $loan->borrow_date ? \Carbon\Carbon::parse($loan->borrow_date)->format('d/m/Y') : '-',
             'return_due_date' => $loan->return_due_date ? \Carbon\Carbon::parse($loan->return_due_date)->format('d/m/Y') : '-',

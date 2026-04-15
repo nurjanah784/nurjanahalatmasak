@@ -15,6 +15,7 @@ class Transaction extends Model
         'user_id',
         'penalty_amount',
         'payment_method',
+        'total_price',  
         'status',
         'paid_at',
         'paid_by'
